@@ -42,7 +42,7 @@ export function SubscribeButton({ priceID }: SubcribeProps) {
       className={styles.subscribeButton}
       onClick={() => handleSubscribe()}
     >
-      Subcribe now
+      Subscribe now
     </button>
   );
 }
