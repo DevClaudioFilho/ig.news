@@ -1,4 +1,4 @@
-import {GetStaticProps} from "next"
+import { GetStaticProps } from "next";
 
 import Head from "next/head";
 
@@ -9,15 +9,12 @@ import styles from "./home.module.scss";
 
 interface HomeProps {
   product: {
-    priceID:string,
-    amount:number
-  }
+    priceID: string;
+    amount: string;
+  };
 }
 
-export default function Home({product}:HomeProps) {
-
-
-
+export default function Home({ product }: HomeProps) {
   return (
     <>
       <Head>
@@ -27,39 +24,40 @@ export default function Home({product}:HomeProps) {
       <main className={styles.contentContainer}>
         <section className={styles.hero}>
           <span>👏 Hey welcome</span>
-          <h1>News about <br/>the <span>React</span> world</h1>
+          <h1>
+            News about <br />
+            the <span>React</span> world
+          </h1>
           <p>
-            Get acess to all the publications<br/>
+            Get acess to all the publications
+            <br />
             <span>for {product.amount} month</span>
           </p>
-          <SubscribeButton priceID={product.priceID}/>
+          <SubscribeButton priceID={product.priceID} />
         </section>
         <img src="/images/avatar.svg" alt="Girl coding" />
       </main>
     </>
-  )
+  );
 }
 
-export const getStaticProps:GetStaticProps = async()=>{
-  const price = await stripe.prices.retrieve(
-    'price_1JACsFC9mAj5pcWyMaQmey52',
-    {
-      expand:['product']
-    }
-  )
+export const getStaticProps: GetStaticProps = async () => {
+  const price = await stripe.prices.retrieve("price_1JACsFC9mAj5pcWyMaQmey52", {
+    expand: ["product"],
+  });
 
   const product = {
     priceID: price.id,
-    amount:new Intl.NumberFormat('en-US',{
-      style:'currency',
-      currency:'USD',
+    amount: new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(price.unit_amount / 100),
-  }
- 
-  return{
-    props:{
+  };
+
+  return {
+    props: {
       product,
     },
-    revalidate: 60 * 60  * 24 //24h
-  }
-}
+    revalidate: 60 * 60 * 24, //24h
+  };
+};
